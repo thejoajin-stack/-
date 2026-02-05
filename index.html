@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기분에 공감해주는 사이다 명언 · 속시원 한 줄</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0f0f12;
+            --bg-card: #1a1a1f;
+            --bg-input: #25252d;
+            --accent: #00d4aa;
+            --accent-dim: rgba(0, 212, 170, 0.25);
+            --text: #e8e8ec;
+            --text-soft: #9a9aa8;
+            --border: #2d2d36;
+            --anger: #ff6b6b;
+            --tired: #ffb347;
+            --sad: #7c8aff;
+            --anxious: #b388ff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--bg-deep);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .bg-pattern {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, var(--accent-dim) 0%, transparent 50%),
+                var(--bg-deep);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .sub {
+            font-size: 0.9rem;
+            color: var(--text-soft);
+            margin-top: 0.35rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-num {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+            margin-bottom: 0.35rem;
+        }
+
+        .card-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-soft);
+            margin-bottom: 1rem;
+        }
+
+        .mood-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .mood-tag {
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: var(--bg-input);
+            color: var(--text-soft);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mood-tag:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .mood-tag.active {
+            background: var(--accent-dim);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .input-wrap {
+            margin-top: 1.25rem;
+        }
+
+        .input-wrap label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-soft);
+            margin-bottom: 0.5rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--bg-input);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+
+        textarea::placeholder {
+            color: var(--text-soft);
+            opacity: 0.8;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .btn-soda {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            margin-top: 1.5rem;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00b894 100%);
+            color: var(--bg-deep);
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-soda:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px var(--accent-dim);
+        }
+
+        .btn-soda:active {
+            transform: translateY(0);
+        }
+
+        .quote-area {
+            margin-top: 2rem;
+            min-height: 120px;
+        }
+
+        .empathy-line {
+            font-size: 0.95rem;
+            color: var(--text-soft);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .btn-again {
+            margin-top: 1rem !important;
+        }
+
+        .quote-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .quote-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text);
+            padding-left: 0.5rem;
+        }
+
+        .quote-mood {
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-top: 1rem;
+            padding-left: 0.5rem;
+        }
+
+        .quote-area.hidden {
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+        }
+
+        .quote-area.visible .quote-card {
+            animation: fadeUp 0.5s ease forwards;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .link-home {
+            display: inline-block;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-soft);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .link-home:hover {
+            color: var(--accent);
+        }
+
+        .hint {
+            font-size: 0.8rem;
+            color: var(--text-soft);
+            margin-top: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    <div class="container">
+        <header>
+            <p class="logo">공감 · 사이다 명언</p>
+            <h1>기분에 공감해주는 한 줄</h1>
+            <p class="sub">기분을 체크하고, 마음대로 적어보면 속시원한 사이다 명언을 드려요</p>
+        </header>
+
+        <div class="card step-card">
+            <p class="step-num">① 기분 체크</p>
+            <p class="card-title">지금 기분이 어떤가요?</p>
+            <div class="mood-tags" id="mood-tags">
+                <button type="button" class="mood-tag" data-mood="anger">화남</button>
+                <button type="button" class="mood-tag" data-mood="annoyed">짜증</button>
+                <button type="button" class="mood-tag" data-mood="sad">우울</button>
+                <button type="button" class="mood-tag" data-mood="tired">지침</button>
+                <button type="button" class="mood-tag" data-mood="stuck">답답</button>
+                <button type="button" class="mood-tag" data-mood="anxious">불안</button>
+                <button type="button" class="mood-tag" data-mood="lonely">외로움</button>
+                <button type="button" class="mood-tag" data-mood="empty">허무</button>
+                <button type="button" class="mood-tag" data-mood="just">그냥</button>
+            </div>
+            <p class="step-num" style="margin-top: 1.5rem;">② 기분 표현</p>
+            <div class="input-wrap">
+                <label for="mood-text">마음껏 적어보세요 (선택)</label>
+                <textarea id="mood-text" placeholder="예: 오늘 상사 때문에 미쳤다 / 그냥 아무것도 하기 싫다 / 아무도 몰라줘서 답답해..."></textarea>
+            </div>
+            <button type="button" class="btn-soda" id="btn-soda">③ 사이다 명언 받기</button>
+            <p class="hint">기분 태그만 눌러도, 글만 써도 돼요. 그다음 버튼 누르면 맞는 사이다 한 줄을 드려요.</p>
+        </div>
+
+        <div class="quote-area hidden" id="quote-area">
+            <p class="empathy-line" id="empathy-line"></p>
+            <div class="quote-card">
+                <p class="quote-text" id="quote-text"></p>
+                <p class="quote-mood" id="quote-mood"></p>
+            </div>
+            <button type="button" class="btn-soda btn-again" id="btn-again">다른 명언 보기</button>
+        </div>
+
+        <a href="index.html" class="link-home">← 일본어 퀴즈로 돌아가기</a>
+    </div>
+
+    <script>
+        const moodTags = document.getElementById('mood-tags');
+        const moodText = document.getElementById('mood-text');
+        const btnSoda = document.getElementById('btn-soda');
+        const quoteArea = document.getElementById('quote-area');
+        const empathyLine = document.getElementById('empathy-line');
+        const quoteText = document.getElementById('quote-text');
+        const quoteMood = document.getElementById('quote-mood');
+        const btnAgain = document.getElementById('btn-again');
+
+        const empathyPhrases = [
+            '그런 기분, 충분히 이해해. 이런 한 줄은 어때?',
+            '그럴 수 있어. 그럴 때 이런 말이 잘 와닿아.',
+            '그 느낌 알아. 아래 한 줄 받아가.',
+            '맞아, 그럴 때 있지. 이런 말 해줬으면 할 때.',
+        ];
+
+        const moodLabels = {
+            anger: '화남',
+            annoyed: '짜증',
+            sad: '우울',
+            tired: '지침',
+            stuck: '답답',
+            anxious: '불안',
+            lonely: '외로움',
+            empty: '허무',
+            just: '그냥'
+        };
+
+        const quotes = {
+            anger: [
+                '상처 받을 용기가 있으면, 상처 주고 살아갈 용기도 있어야 한다.',
+                '다 이해해 주려 하지 마. 이해 못 하는 사람한테 설명하는 시간에 나라도 쉬어.',
+                '미안하다고만 하지 마. 고치거나, 아니면 그 관계를 정리해.',
+                '너무 맞춰 주다 보면 나는 없어진다. 가끔은 나쁜 사람이 되어도 된다.',
+                '설명 안 해도 돼. 이해 못 하는 사람은 설명해도 못 한다.',
+                '참고 견디는 게 미덕이 아니라, 참을 만한 것만 참는 게 현명이다.',
+            ],
+            annoyed: [
+                '안 해도 되는 일에 미래를 낭비하지 마.',
+                '번아웃 오면 멈추는 게 용기다. 무리하는 게 아니다.',
+                '열심히만 하면 된다는 말, 이제 안 믿어도 된다.',
+                '오늘 못한 건 내일도 안 할 가능성이 높다. 그냥 오늘 쉬어.',
+                '모두에게 좋은 사람일 필요 없다. 나한테 좋은 사람이면 된다.',
+                '기대를 낮추면 배신도 없다.',
+            ],
+            sad: [
+                '나도 나를 모르는데 남이 뭘 알아. 그래도 괜찮다.',
+                '우울할 때 억지로 밝을 필요 없다. 그냥 우울해도 된다.',
+                '슬프면 울어. 참는 게 슬픔을 없애주진 않는다.',
+                '오늘 하루만 망가져도 된다. 내일 다시 설 거니까.',
+                '무기력해도 괜찮다. 가끔은 아무것도 안 하는 게 답이다.',
+                '지금 못 나아가도, 멈춰 있는 것만으로도 충분히 버티는 거다.',
+            ],
+            tired: [
+                '피곤하면 쉬는 게 맞다. 참고 견디는 게 아니다.',
+                '쉬는 것도 일이다. 몸이 보내는 신호를 무시하지 마.',
+                '오늘 못한 건 내일도 안 할 가능성이 높다. 그냥 오늘 쉬어.',
+                '열심히만 하면 된다는 말, 이제 안 믿어도 된다.',
+                '번아웃 오면 멈추는 게 용기다. 무리하는 게 아니다.',
+                '무리하지 말고, 내일 할 일은 내일 해도 된다.',
+            ],
+            stuck: [
+                '답답하면 문 열고 나가도 된다. 그 문이 남이 잠갔어도, 열쇠는 네가 찾을 수 있다.',
+                '지금 이 구간이 평생이 아니니까. 조금만 더 가면 바뀐다.',
+                '모르겠으면 멈춰도 된다. 답은 나중에 와도 돼.',
+                '안 풀리면 잠시 내려놓는 게 답일 때가 많다.',
+                '빨리 갈 필요 없다. 제자리 걸음이어도 나아가는 거다.',
+                '지금 못 나아가도, 멈춰 있는 것만으로도 충분히 버티는 거다.',
+            ],
+            anxious: [
+                '걱정해도 되는 일은 나중에 와도 늦지 않다. 지금은 안 해도 된다.',
+                '불안할 때는 작은 것 하나만 해도 된다. 그게 전부가 아니다.',
+                '완벽하게 준비할 수 있는 일은 거의 없다. 그냥 시작해도 된다.',
+                '미래는 아직 안 왔다. 지금 숨만 쉬어도 충분하다.',
+                '걱정이 문제를 해결해 주진 않는다. 그냥 오늘만 버티면 된다.',
+                '불안하면 인정해도 된다. 숨기면 더 커진다.',
+            ],
+            lonely: [
+                '외로울 때는 외롭다고 말해도 된다. 말한 것만으로 조금 나아진다.',
+                '혼자여도 괜찮다. 혼자 있는 시간도 나를 채우는 시간이다.',
+                '많은 사람이 있어도 외로울 수 있다. 적은 사람이 있어도 충분할 수 있다.',
+                '지금 외로운 건 약한 게 아니라, 연결을 원하는 당연한 마음이다.',
+                '나만의 사람은 언젠가 온다. 그때까지는 나를 잘 대접해.',
+                '외로움도 감정이다. 참지 말고 느껴도 된다.',
+            ],
+            empty: [
+                '허무해도 괜찮다. 뭔가 채우려고 발버둥치지 않아도 된다.',
+                '의미를 못 찾겠으면, 오늘 하루만 편하게 살아도 된다.',
+                '큰 목표 없이 살아도 된다. 작은 낙만 있어도 충분하다.',
+                '지금은 비어 있어도, 나중에 채워질 때가 온다.',
+                '허무함은 나쁜 게 아니라, 뭔가를 바꾸고 싶다는 신호일 수 있다.',
+                '무의미하다고 느껴도, 네가 존재하는 것만으로 누군가에겐 의미 있다.',
+            ],
+            just: [
+                '그냥 그런 날이 있다. 오늘은 그날인 거다.',
+                '특별한 이유 없이 힘들어도 된다. 그냥 쉬어.',
+                '뭔가 하고 싶지 않으면 안 해도 된다. 그게 오늘의 답일 수 있다.',
+                '기분이 좋지 않아도 괜찮다. 좋을 때도 있으면 나쁠 때도 있는 거다.',
+                '설명하지 않아도 된다. 그냥 지금은 그렇게 느껴지는 거다.',
+                '오늘은 아무것도 안 해도 된다. 내일 다시 생각해도 늦지 않다.',
+            ]
+        };
+
+        let selectedMood = null;
+
+        moodTags.querySelectorAll('.mood-tag').forEach(btn => {
+            btn.addEventListener('click', () => {
+                moodTags.querySelectorAll('.mood-tag').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedMood = btn.dataset.mood;
+            });
+        });
+
+        function pickQuote() {
+            const mood = selectedMood || 'just';
+            const list = quotes[mood];
+            const idx = Math.floor(Math.random() * list.length);
+            return { text: list[idx], mood: moodLabels[mood] };
+        }
+
+        function showQuote() {
+            const { text, mood } = pickQuote();
+            const empathy = empathyPhrases[Math.floor(Math.random() * empathyPhrases.length)];
+            empathyLine.textContent = empathy;
+            quoteText.textContent = text;
+            quoteMood.textContent = '#' + mood;
+            quoteArea.classList.remove('hidden');
+            quoteArea.classList.add('visible');
+            quoteArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        btnSoda.addEventListener('click', () => {
+            if (!selectedMood && !moodText.value.trim()) {
+                selectedMood = 'just';
+                moodTags.querySelector('.mood-tag[data-mood="just"]')?.classList.add('active');
+            }
+            showQuote();
+        });
+
+        btnAgain.addEventListener('click', showQuote);
+    </script>
+</body>
+</html>
